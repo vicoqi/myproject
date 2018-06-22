@@ -25,4 +25,5 @@ gradle/
 ./idea*
 out/
 .idea/
+target/
 /.DS_Store
