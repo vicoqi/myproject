@@ -1,0 +1,1 @@
+注：该目录下的文件由mybatis genarator自动生成
