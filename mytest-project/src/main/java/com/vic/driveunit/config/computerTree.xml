@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state name="idel" class=" ">  //相当于上位机展示的空闲
+	<condition name="isMove" class="IsMove">  //判断任务类型
+		<state name="move" class="MoveState">  //展示的状态
+			<condition name="isHigh" class="IsHigh">   //是否货盘顶起
+				<state name="PutDownPan" class="PutDownPan">   // int ret = kernel.doSyncPutDown(direction); int 放进 'context'
+					<condition name="isPutDownDone" class="IsPutDownDone"> //ret == call_finish
+						<state name="PutDownDone" class="PutDownDone">
+							<condition name="isRequestMovePermission" class="IsRequestMovePermission">
+								<state name="RequestMovePermission" class="RequestMovePermission">
+									<condition name="isDoFOLLOW" class="IsDoFollow">
+										<state name="doFOLLOW" class="DoFollow">
+										</state>
+									</condition>
+									<condition name="isDoMove" class="IsDoMove">
+										<state name="doMove" class="DoMove">
+										</state>
+									</condition>
+									<condition name="isNeedPathReplan" class="IsNeedPathReplan">
+										<condition name="isCancelFlag" class="IsCancelFlag">
+											<state name="doMove" class="DoMove">
+											</state>
+										</condition>
+										<condition name="isOperationFinished" class="IsOperationFinished">
+											<state name="DoPathReplan" class="DoPathReplan">
+											</state>
+										</condition>
+									</condition>
+								</state>
+							</condition>
+							<condition name="isRequestBackoffPermission" class="IsRequestBackoffPermission">
+								<state name="RequestBackoffPermission" class="RequestBackoffPermission">
+								</state>
+							</condition>
+						</state>
+					</condition>
+				</state>
+			</condition>
+			<condition name="isDoMove" class="IsHigh">
+				<state name="moving" class="Moving">
+				</state>
+			</condition>
+		</state>
+	</condition>
+	<condition name="isBucketMove" class="IsBucketMove">
+		<state name="bucketMove" class="BucketMoveState">  //相当于上位机展示的状态
+			<condition name="isBucketMove" class="IsBucketMove">
+				<state name="BucketMoving" class="BucketMoving">
+				</state>
+			</condition>
+		</state>
+	</condition>
+</state>
