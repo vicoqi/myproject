@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DefaultMessageFilterChain<P extends IMessage, R> implements MessageFilterChain<P> {
+public class DefaultMessageFilterChain implements MessageFilterChain {
 
-    private final Map<String, Entry<P>> name2entry = new ConcurrentHashMap<String, Entry<P>>();
+    private final Map<String, Entry> name2entry = new ConcurrentHashMap<String, Entry>();
 
     /** The chain head */
     private final EntryImpl head;
@@ -27,27 +27,27 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
     private final EntryImpl tail;
 
     /** current service */
-    private RequestBehavior<P> requestBehavior;
+//    private RequestBehavior requestBehavior;
 
-    public DefaultMessageFilterChain(RequestBehavior<P> requestBehavior) {
-        if (requestBehavior == null) {
-            throw new NullPointerException("requestBehavior is  null");
-        }
-        this.requestBehavior = requestBehavior;
+    public DefaultMessageFilterChain() {
+//        if (requestBehavior == null) {
+//            throw new NullPointerException("requestBehavior is  null");
+//        }
+//        this.requestBehavior = requestBehavior;
         head = new EntryImpl(null, null, "head", new HeadFilter());
         tail = new EntryImpl(head, null, "tail", new TailFilter());
         head.nextEntry = tail;
     }
 
-    public Entry<P> getEntry(String name) {
-        Entry<P> e = name2entry.get(name);
+    public Entry getEntry(String name) {
+        Entry e = name2entry.get(name);
         if (e == null) {
             return null;
         }
         return e;
     }
 
-    public Entry<P> getEntry(MessageFilter<P> filter) {
+    public Entry getEntry(MessageFilter filter) {
         EntryImpl e = head.nextEntry;
         while (e != tail) {
             if (e.getFilter() == filter) {
@@ -57,8 +57,8 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
         }
         return null;
     }
-    public MessageFilter<P> get(String name) {
-        Entry<P> e = getEntry(name);
+    public MessageFilter get(String name) {
+        Entry e = getEntry(name);
         if (e == null) {
             return null;
         }
@@ -66,8 +66,8 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
         return e.getFilter();
     }
 
-    public MessageFilter.NextFilter<P> getNextFilter(String name) {
-        Entry<P> e = getEntry(name);
+    public MessageFilter.NextFilter getNextFilter(String name) {
+        Entry e = getEntry(name);
         if (e == null) {
             return null;
         }
@@ -75,35 +75,35 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
         return e.getNextFilter();
     }
 
-    public synchronized void addFirst(String name, MessageFilter<P> filter) {
+    public synchronized void addFirst(String name, MessageFilter filter) {
         checkAddable(name);
         register(head, name, filter);
     }
 
-    public synchronized void addLast(String name, MessageFilter<P> filter) {
+    public synchronized void addLast(String name, MessageFilter filter) {
         checkAddable(name);
         register(tail.prevEntry, name, filter);
     }
 
-    public synchronized void addBefore(String baseName, String name, MessageFilter<P> filter) {
+    public synchronized void addBefore(String baseName, String name, MessageFilter filter) {
         EntryImpl baseEntry = checkOldName(baseName);
         checkAddable(name);
         register(baseEntry.prevEntry, name, filter);
     }
 
-    public synchronized void addAfter(String baseName, String name, MessageFilter<P> filter) {
+    public synchronized void addAfter(String baseName, String name, MessageFilter filter) {
         EntryImpl baseEntry = checkOldName(baseName);
         checkAddable(name);
         register(baseEntry, name, filter);
     }
 
-    public synchronized MessageFilter<P> remove(String name) {
+    public synchronized MessageFilter remove(String name) {
         EntryImpl entry = checkOldName(name);
         deregister(entry);
         return entry.getFilter();
     }
 
-    public synchronized void remove(MessageFilter<P> filter) {
+    public synchronized void remove(MessageFilter filter) {
         EntryImpl e = head.nextEntry;
         while (e != tail) {
             if (e.getFilter() == filter) {
@@ -116,8 +116,8 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
     }
 
     public synchronized void clear() throws Exception {
-        List<Entry<P>> l = new ArrayList<Entry<P>>(name2entry.values());
-        for (Entry<P> entry : l) {
+        List<Entry> l = new ArrayList<Entry>(name2entry.values());
+        for (Entry entry : l) {
             try {
                 deregister((EntryImpl)entry);
             } catch (Exception e) {
@@ -131,7 +131,7 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
      * @param name
      * @param filter
      */
-    private void register(EntryImpl prevEntry, String name, MessageFilter<P> filter) {
+    private void register(EntryImpl prevEntry, String name, MessageFilter filter) {
         //告诉 newEntry 前后的 entry
         EntryImpl newEntry = new EntryImpl(prevEntry, prevEntry.nextEntry, name, filter);
         // 把 newEntry  接入到现在链表中
@@ -176,19 +176,19 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
         }
     }
 
-    public void  fireRequest(P request) throws Exception {
-        Entry<P> head = this.head;
+    public void  fireRequest(IMessage request) throws Exception {
+        Entry head = this.head;
         callEntry(head, request);
     }
     
-    private void callEntry(Entry<P> entry, P request) throws Exception {
-            MessageFilter<P> filter = entry.getFilter();
-            MessageFilter.NextFilter<P> nextFilter = entry.getNextFilter();
+    private void callEntry(Entry entry, IMessage request) throws Exception {
+            MessageFilter filter = entry.getFilter();
+            MessageFilter.NextFilter nextFilter = entry.getNextFilter();
             filter.request(nextFilter, request);
     }
 
-    public List<Entry<P>> getAll() {
-        List<Entry<P>> list = new ArrayList<Entry<P>>();
+    public List<Entry> getAll() {
+        List<Entry> list = new ArrayList<Entry>();
         EntryImpl e = head.nextEntry;
         while (e != tail) {
             list.add(e);
@@ -201,7 +201,7 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
         return getEntry(name) != null;
     }
 
-    public boolean contains(MessageFilter<P> filter) {
+    public boolean contains(MessageFilter filter) {
         return getEntry(filter) != null;
     }
     @Override
@@ -230,15 +230,16 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
         return buf.toString();
     }
 
-    private class HeadFilter extends MessageFilterAdapter<P> {}
+    private class HeadFilter extends MessageFilterAdapter {}
 
-    private class TailFilter extends MessageFilterAdapter<P> {
+    private class TailFilter extends MessageFilterAdapter {
         @Override
-        public void request(NextFilter<P> nextFilter, P request) throws Exception {
-            requestBehavior.getHandler().request(request);
+        public void request(NextFilter nextFilter, IMessage request) throws Exception {
+//            requestBehavior.getHandler().request(request);
+
         }
     }
-    private class EntryImpl implements Entry<P> {
+    private class EntryImpl implements Entry {
 
         private EntryImpl prevEntry;
 
@@ -246,11 +247,11 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
 
         private final String name;
 
-        private MessageFilter<P> filter;
+        private MessageFilter filter;
 
-        private final MessageFilter.NextFilter<P> nextFilter;
+        private final MessageFilter.NextFilter nextFilter;
 
-        private EntryImpl(EntryImpl prevEntry, EntryImpl nextEntry, String name, MessageFilter<P> filter) {
+        private EntryImpl(EntryImpl prevEntry, EntryImpl nextEntry, String name, MessageFilter filter) {
             if (filter == null) {
                 throw new IllegalArgumentException("filter");
             }
@@ -262,10 +263,10 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
             this.nextEntry = nextEntry;
             this.name = name;
             this.filter = filter;
-            this.nextFilter = new MessageFilter.NextFilter<P>() {
+            this.nextFilter = new MessageFilter.NextFilter() {
 
-                public void  request(P request) throws Exception {
-                    Entry<P> nextEntry = EntryImpl.this.nextEntry;
+                public void  request(IMessage request) throws Exception {
+                    Entry nextEntry = EntryImpl.this.nextEntry;
                     callEntry(nextEntry, request);
                 }
 
@@ -279,18 +280,18 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
             return name;
         }
 
-        public MessageFilter<P> getFilter() {
+        public MessageFilter getFilter() {
             return filter;
         }
 
-        private void setFilter(MessageFilter<P> filter) {
+        private void setFilter(MessageFilter filter) {
             if (filter == null) {
                 throw new IllegalArgumentException("filter");
             }
             this.filter = filter;
         }
 
-        public MessageFilter.NextFilter<P> getNextFilter() {
+        public MessageFilter.NextFilter getNextFilter() {
             return nextFilter;
         }
 
@@ -320,11 +321,11 @@ public class DefaultMessageFilterChain<P extends IMessage, R> implements Message
             sb.append("')");
             return sb.toString();
         }
-        public void addAfter(String name, MessageFilter<P> filter) {
+        public void addAfter(String name, MessageFilter filter) {
             DefaultMessageFilterChain.this.addAfter(getName(), name, filter);
         }
 
-        public void addBefore(String name, MessageFilter<P> filter) {
+        public void addBefore(String name, MessageFilter filter) {
             DefaultMessageFilterChain.this.addBefore(getName(), name, filter);
         }
         public void remove() {

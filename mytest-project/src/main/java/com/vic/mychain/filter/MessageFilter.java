@@ -2,11 +2,11 @@ package com.vic.mychain.filter;
 
 import com.vic.mychain.message.IMessage;
 
-public interface MessageFilter<P extends IMessage> {
+public interface MessageFilter<P,R> {
 
-    void request(NextFilter<P> nextFilter, P request) throws Exception;
+    void request(NextFilter nextFilter, IMessage request) throws Exception;
 
-    public interface NextFilter<P extends IMessage> {
-        void request(P request) throws Exception;
+    public interface NextFilter {
+        void request(IMessage request) throws Exception;
     }
 }

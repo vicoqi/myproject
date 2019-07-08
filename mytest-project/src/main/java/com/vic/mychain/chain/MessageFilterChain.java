@@ -4,41 +4,41 @@ import com.vic.mychain.message.IMessage;
 
 import java.util.List;
 
-public interface MessageFilterChain<P extends IMessage> {
+public interface MessageFilterChain {
 
-    Entry<P> getEntry(String name);
+    Entry getEntry(String name);
 
-    Entry<P> getEntry(MessageFilter<P> filter);
+    Entry getEntry(MessageFilter filter);
 
 //    Entry<P, R> getEntry(Class<? extends RequestFilter<P, R>> filterType);
 
-    MessageFilter<P> get(String name);
+    MessageFilter get(String name);
 
 //    RequestFilter<P, R> get(Class<? extends RequestFilter<P, R>> filterType);
 
-    MessageFilter.NextFilter<P> getNextFilter(String name);
+    MessageFilter.NextFilter getNextFilter(String name);
 
 //    MessageFilter.NextFilter<P> getNextFilter(MessageFilter<P> filter);
 //
 //    RequestFilter.NextFilter<P, R> getNextFilter(Class<? extends RequestFilter<P, R>> filterType);
 
-    List<Entry<P>> getAll();
+    List<Entry> getAll();
 //
 //    List<Entry<P, R>> getAllReversed();
 //
     boolean contains(String name);
 //
-    boolean contains(MessageFilter<P> filter);
+    boolean contains(MessageFilter filter);
 //
 //    boolean contains(Class<? extends RequestFilter<P, R>> filterType);
 //
-    void addFirst(String name, MessageFilter<P> filter);
+    void addFirst(String name, MessageFilter filter);
 
-    void addLast(String name, MessageFilter<P> filter);
+    void addLast(String name, MessageFilter filter);
 
-    void addBefore(String baseName, String name, MessageFilter<P> filter);
+    void addBefore(String baseName, String name, MessageFilter filter);
 
-    void addAfter(String baseName, String name, MessageFilter<P> filter);
+    void addAfter(String baseName, String name, MessageFilter filter);
 
 //    RequestFilter<P, R> replace(String name, RequestFilter<P, R> newFilter);
 
@@ -46,17 +46,17 @@ public interface MessageFilterChain<P extends IMessage> {
 //
 //    RequestFilter<P, R> replace(Class<? extends RequestFilter<P, R>> oldFilterType, RequestFilter<P, R> newFilter);
 
-     MessageFilter<P> remove(String name);
+     MessageFilter remove(String name);
 
-    void remove(MessageFilter<P> filter);
+    void remove(MessageFilter filter);
 
 //    RequestFilter<P, R> remove(Class<? extends RequestFilter<P, R>> filterType);
 
     void clear() throws Exception;
 
-    public void fireRequest(P request) throws Exception;
+    public void fireRequest(IMessage request) throws Exception;
 
-    public interface Entry<P extends IMessage> {
+    public interface Entry {
 
         /**
          * Returns the name of the filter.
@@ -66,8 +66,8 @@ public interface MessageFilterChain<P extends IMessage> {
         /**
          * Returns the filter.
          */
-        MessageFilter<P> getFilter();
+        MessageFilter getFilter();
 
-        MessageFilter.NextFilter<P> getNextFilter();
+        MessageFilter.NextFilter getNextFilter();
     }
 }
