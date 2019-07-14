@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 /**
  * Bean工具类<br>
  * 在非spring管理的类中获取spring注册的bean
- *
- * @author cipher
  */
 @Component
 public class BeanTool implements ApplicationContextAware {

@@ -23,11 +23,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @Author: CipherCui
- * @Description:
- * @Date: Created in 9:15 2018/10/18
- */
 public class ClassScaner implements ResourceLoaderAware {
 
     private final List<TypeFilter> includeFilters = new LinkedList<TypeFilter>();

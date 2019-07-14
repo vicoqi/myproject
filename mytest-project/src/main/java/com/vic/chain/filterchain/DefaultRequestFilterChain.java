@@ -271,6 +271,7 @@ public class DefaultRequestFilterChain<P extends Request, R> implements RequestF
         return callNextOnQuery(context, head, request);
     }
 
+    //可以理解为 执行这个 entry 的 filter 中的 Request 方法, 不是执行 nextEntry，名字有歧义。
     private R callNextOnQuery(AGVContext context, Entry<P, R> entry, P request) throws Exception {
             RequestFilter<P, R> filter = entry.getFilter();
             RequestFilter.NextFilter<P, R> nextFilter = entry.getNextFilter();

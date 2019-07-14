@@ -1,4 +1,4 @@
-package com.vic.annotate.service.interfaces;
+package com.vic.annotate.service;
 
 public interface IHandleService {
     void handleService();

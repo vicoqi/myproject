@@ -6,12 +6,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.util.CollectionUtils;
 
 import java.io.*;
 import java.util.List;
 import java.util.Map;
 
-public class WriteLogToExcel {
+public class WriteLogToExcelUtils {
     private static final String EXCEL_XLS = "xls";
     private static final String EXCEL_XLSX = "xlsx";
     /**
@@ -30,15 +31,20 @@ public class WriteLogToExcel {
         return wb;
     }
 
-    public static void writeExcel(List<Map> dataList, int cloumnCount, String finalXlsxPath){
+    public static void writeExcel(List<Map> dataList, String finalXlsxPath){
+        if(CollectionUtils.isEmpty(dataList)){return;}
         OutputStream out = null;
         try {
             // 获取总列数
-            int columnNumCount = cloumnCount;
+            int columnNumCount = dataList.get(0).keySet().size();
             // 读取Excel文档
             File finalXlsxFile = new File(finalXlsxPath);
             if(!finalXlsxFile.exists()){
-                finalXlsxFile.createNewFile();
+                try {
+                    finalXlsxFile.createNewFile();
+                }catch (Throwable e){
+                    throw new RuntimeException("createNewFile failure");
+                }
             }
             Workbook workBook = getWorkbok(finalXlsxFile);
             // sheet 对应一个工作页

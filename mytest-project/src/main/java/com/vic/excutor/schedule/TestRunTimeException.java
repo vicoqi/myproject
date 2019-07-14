@@ -12,15 +12,22 @@ public class TestRunTimeException {
     public static void main(String[] args) {
         ThreadPoolExecutor handlerExecutor = new ThreadPoolExecutor(3, 3, 20, TimeUnit.SECONDS,
                 new ArrayBlockingQueue(1));
-        System.out.println("start"+handlerExecutor.getActiveCount());
         for(int i=0;i<20;i++){
             int a = i;
+            System.out.println("start"+handlerExecutor.getActiveCount());
             handlerExecutor.execute(() -> {
-                System.out.println("i=="+a);
-                new RuntimeException("aa");
+//                try {
+                    runner(a);
+//                }catch (Exception e){
+//
+//                }
             });
         }
 
         System.out.println("end"+handlerExecutor.getActiveCount());
+    }
+    public static void runner(int a) {
+        System.out.println("i=="+a);
+        new RuntimeException("aa");
     }
 }

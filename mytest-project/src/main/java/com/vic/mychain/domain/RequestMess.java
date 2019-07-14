@@ -1,4 +1,4 @@
 package com.vic.mychain.domain;
 
-public class RequestMess {
+public class RequestMess implements Request{
 }
