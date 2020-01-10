@@ -1,6 +1,7 @@
 package com.vic.Async;
 
 import org.junit.Test;
+import reactor.core.publisher.Flux;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -90,6 +91,28 @@ public class MyCompleteFuture {
             e.printStackTrace();
         }
     }
-    //可以扩展发射 sink
 
+    //可以扩展发射 sink
+    @Test
+    public void test5(){
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "Hello|"+Thread.currentThread().getName();
+        });
+
+        Flux.create(sink -> future.thenAccept(s-> sink.next(s))
+        ).subscribe(a->{
+            System.out.println("from subscribe|||||v:"+a+"|||||Thread:"+Thread.currentThread().getName());
+        });
+        System.out.println("CompletableFuture|"+Thread.currentThread().getName());
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

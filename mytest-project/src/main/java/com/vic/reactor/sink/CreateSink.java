@@ -14,7 +14,9 @@ import reactor.core.publisher.Flux;
 
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * create 常用的场景就是将现有的 API 转为响应式，比如监听器的异步方法。
@@ -87,4 +89,51 @@ public class CreateSink {
     }
 
 
+    @Test
+    public void test3(){
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "Hello|"+Thread.currentThread().getName();
+        });
+
+        Flux.create(sink -> future.thenAccept(s-> sink.next(s))
+        ).subscribe(a->{
+            System.out.println("from subscribe|||||v:"+a+"|||||Thread:"+Thread.currentThread().getName());
+        });
+        System.out.println("CompletableFuture|"+Thread.currentThread().getName());
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    ///
+//    io.reactivex.internal.subscribers.LambdaSubscriber a = new io.reactivex.internal.subscribers.LambdaSubscriber();
+
+//  reactor.core.publisher.LambdaSubscriber a = new
+
+
+    @Test
+    public void test4(){
+        CreateSink create = new CreateSink();
+        Flux<String> stringFlux = create.searchData(1,t-> String.valueOf(t));
+        stringFlux.subscribe(System.out::println);
+    }
+
+    //查询数据库
+    private <T,R> Flux<R> searchData(T v,Function<T,R> function){
+//        MyEmmiter emmiter = new MyEmmiter();
+        //发射一个操作，比如一个查询数据的操作，
+//        emmiter.launch(function);
+//        Flux flux = Flux.create(sink -> emmiter.onOperation(r-> sink.next(r)));
+
+        CompletableFuture<R> future = CompletableFuture.supplyAsync(() -> function.apply(v));
+        Flux<R> flux = Flux.create(sink -> future.thenAccept(s-> sink.next(s)));
+        return flux;
+    }
 }
