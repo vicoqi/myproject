@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
@@ -27,16 +28,18 @@ public class RedisDatasourceConfiguration {
 //    }
     @Bean
     public ReactiveRedisConnectionFactory lettuceConnectionFactory1() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("127.0.0.1", 6379);
-        redisStandaloneConfiguration.setDatabase(3);
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("118.190.209.5", 6379);
+        redisStandaloneConfiguration.setDatabase(0);
+        redisStandaloneConfiguration.setPassword(RedisPassword.of("vic123456"));
         LettuceConnectionFactory redisConnectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);
         return redisConnectionFactory;
     }
 
     @Bean
     public RedisConnectionFactory lettuceConnectionFactory2() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("127.0.0.1", 6379);
-        redisStandaloneConfiguration.setDatabase(4);
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("118.190.209.5", 6379);
+        redisStandaloneConfiguration.setDatabase(1);
+        redisStandaloneConfiguration.setPassword(RedisPassword.of("vic123456"));
         RedisConnectionFactory redisConnectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);
         return redisConnectionFactory;
     }

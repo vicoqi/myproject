@@ -27,9 +27,9 @@ public class TestConnect {
         System.out.println("1**"+ Thread.currentThread().getName()+" time:"+System.currentTimeMillis());
         Thread.sleep(100);
         System.out.println("2**"+ Thread.currentThread().getName()+" time:"+System.currentTimeMillis());
-        text2();
+//        text2();
         System.out.println("3***"+ Thread.currentThread().getName()+" time:"+System.currentTimeMillis());
-        text2();
+//        text2();
         System.out.println("4***"+ Thread.currentThread().getName()+" time:"+System.currentTimeMillis());
     }
 

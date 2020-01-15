@@ -14,7 +14,7 @@ public class ReactiveRedisRepositoryImpl implements IReactiveRedisRepository {
     private ReactiveRedisTemplate<String,String> reactiveRedisTemplate;
     @Override
     public Mono<Boolean> saveData(String key,String value) {
-        return reactiveRedisTemplate.opsForValue().set(key,value).log();
+        return reactiveRedisTemplate.opsForValue().set(key,value);
     }
 
     @Override

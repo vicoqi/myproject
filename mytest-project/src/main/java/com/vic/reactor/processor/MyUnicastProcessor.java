@@ -1,11 +1,15 @@
 package com.vic.reactor.processor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+import org.reactivestreams.Subscription;
+import reactor.core.CoreSubscriber;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 import reactor.core.publisher.UnicastProcessor;
 import reactor.util.concurrent.Queues;
+import reactor.util.context.Context;
 
 import javax.annotation.Nullable;
 import java.util.Queue;
@@ -29,9 +33,36 @@ public class MyUnicastProcessor {
     public static void main(String[] args) throws Exception{
         UnicastProcessor<Integer> processor = UnicastProcessor.create();
         FluxSink<Integer> sink = processor.sink(FluxSink.OverflowStrategy.BUFFER);
-        sink.next(1);
-        testUnicastProcessor();
+        processor.subscribe(new CoreSubscriber<Integer>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                System.out.println("onSubscribe");
+                s.request(Integer.MAX_VALUE);
+            }
 
+            @Override
+            public void onNext(Integer integer) {
+
+                System.out.println(integer);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                System.out.println("onError");
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("processor.onComplete()");
+            }
+        });
+        sink.next(1);
+        System.out.println(sink.currentContext().size());
+        sink.complete();
+        TimeUnit.SECONDS.sleep(2);
+//        processor.onComplete();
+
+//        testUnicastProcessor();
     }
 
     public void createDefault() {
@@ -85,5 +116,15 @@ public class MyUnicastProcessor {
 //        unicastProcessor.blockLast(); //blockLast也是一个subscriber
     }
 
+    @Test
+    public void testDisposableUnicastProcessor(){
+        UnicastProcessor<Integer> unicastProcessor = UnicastProcessor.create(Queues.<Integer>get(2).get(), System.out::println);
+        Flux<Integer> flux = unicastProcessor
+                                        .map(e -> e).publish()
+                                        .doOnError(e -> {
+                                            log.error(e.getMessage(),e);
+                                        });
+
+    }
 
 }
