@@ -10,10 +10,10 @@ import com.atguigu.bean.RainBow;
 public class MyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
 
 	/**
-	 * AnnotationMetadata£ºµ±Ç°ÀàµÄ×¢½âÐÅÏ¢
-	 * BeanDefinitionRegistry:BeanDefinition×¢²áÀà£»
-	 * 		°ÑËùÓÐÐèÒªÌí¼Óµ½ÈÝÆ÷ÖÐµÄbean£»µ÷ÓÃ
-	 * 		BeanDefinitionRegistry.registerBeanDefinitionÊÖ¹¤×¢²á½øÀ´
+	 * AnnotationMetadataï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½×¢ï¿½ï¿½ï¿½ï¿½Ï¢
+	 * BeanDefinitionRegistry:BeanDefinition×¢ï¿½ï¿½ï¿½à£»
+	 * 		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½beanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * 		BeanDefinitionRegistry.registerBeanDefinitionï¿½Ö¹ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
@@ -21,9 +21,9 @@ public class MyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
 		boolean definition = registry.containsBeanDefinition("com.atguigu.bean.Red");
 		boolean definition2 = registry.containsBeanDefinition("com.atguigu.bean.Blue");
 		if(definition && definition2){
-			//Ö¸¶¨Bean¶¨ÒåÐÅÏ¢£»£¨BeanµÄÀàÐÍ£¬Bean¡£¡£¡££©
+			//Ö¸ï¿½ï¿½Beanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Beanï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½Beanï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			RootBeanDefinition beanDefinition = new RootBeanDefinition(RainBow.class);
-			//×¢²áÒ»¸öBean£¬Ö¸¶¨beanÃû
+			//×¢ï¿½ï¿½Ò»ï¿½ï¿½Beanï¿½ï¿½Ö¸ï¿½ï¿½beanï¿½ï¿½
 			registry.registerBeanDefinition("rainBow", beanDefinition);
 		}
 	}

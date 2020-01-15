@@ -27,23 +27,17 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 		Map annotatedMethods = null;
 		try {
 			annotatedMethods = MethodIntrospector.selectMethods(bean.getClass(), (MethodIntrospector.MetadataLookup<MyEventListener>) (methodx) -> {
-				return (MyEventListener) AnnotatedElementUtils.findMergedAnnotation(methodx, MyEventListener.class);
+				return AnnotatedElementUtils.findMergedAnnotation(methodx, MyEventListener.class);
 			});
 			if(!CollectionUtils.isEmpty(annotatedMethods)){
 				for(Map.Entry<Method, MyEventListener> entry:(Set<Map.Entry<Method, MyEventListener>>)annotatedMethods.entrySet()){
 					Class p = entry.getKey().getParameterTypes()[0];
 					String order = entry.getValue().order();
 				}
-//				Iterator var6 = annotatedMethods.keySet().iterator();
-//				while(var6.hasNext()) {
-//					Method method = (Method)var6.next();
-//					Class p = method.getParameterTypes()[0];
-//				}
-
 			}
 		} catch (Throwable var12) {
 		}
-		return null;
+		return bean;
 	}
 
 }
