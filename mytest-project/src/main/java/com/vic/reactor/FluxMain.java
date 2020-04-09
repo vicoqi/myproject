@@ -1,5 +1,6 @@
 package com.vic.reactor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -10,10 +11,10 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
-
+@Slf4j
 public class FluxMain {
     public static void main(String[] args) throws Exception{
-        Flux.just("Hello", "World").subscribe(System.out::println);
+        Flux.just("Hello", "World").log().subscribe(System.out::println);
         Flux<Integer> flux = Flux.fromArray(new Integer[] {1, 2, 3});
         flux.subscribe(System.out::println);
         TimeUnit.SECONDS.sleep(2);
@@ -23,6 +24,11 @@ public class FluxMain {
 //        Flux.interval(Duration.of(10, ChronoUnit.SECONDS)).subscribe(System.out::println);
 //        Flux.intervalMillis(1000).subscribe(System.out::println);
 
+        //校验流数据
+//        StepVerifier.create(Flux.just("a", "b"))
+//                .expectNext("a")
+//                .expectNext("b")
+//                .verifyComplete();
     }
 
     @Test

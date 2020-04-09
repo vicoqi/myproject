@@ -17,7 +17,7 @@ public class DemoBufferOperator {
     public static void main(String[] args) {
         Observable<Integer> observable 	= Observable.range(10, 9);
 
-        Observer<Integer> observer = new Observer<Integer>() {
+        Observer<List<Integer>> observer = new Observer<List<Integer>>() {
 
             public void onComplete() {
                 System.out.println("On Complete called");
@@ -27,7 +27,7 @@ public class DemoBufferOperator {
                 t.printStackTrace();
             }
 
-            public void onNext(Integer value) {
+            public void onNext(List<Integer> value) {
                 System.out.println("On Next called " + value +"\n");
             }
 
@@ -36,25 +36,7 @@ public class DemoBufferOperator {
             }
         };
 
-        observable.buffer(2).subscribe(item -> System.out.println("Emitted " + item + " items"));
-
-        observable.buffer(2).subscribe(new Consumer<List<Integer>>() {
-            @Override
-            public void accept(List<Integer> list) throws Exception {
-                System.out.println("Processing items : " + list);
-                java.util.function.Consumer<Integer> consumer = (Integer i) -> System.out.println("accept value " + i.intValue());
-                list.forEach(consumer);
-				/*
-				int total = 0;
-				list.forEach(new java.util.function.Consumer<Integer>(){
-					@Override
-					public void accept(Integer t) {
-						total = total + t.intValue();
-						System.out.println("total " + total);
-					}
-				});
-				*/
-            }
-        });
+        Disposable disposable = observable.buffer(2).subscribe(item -> System.out.println("Emitted " + item + " items"));
+        observable.buffer(2).subscribe(observer);
     }
 }

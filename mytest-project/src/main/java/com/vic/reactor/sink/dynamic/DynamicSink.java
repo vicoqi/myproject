@@ -1,6 +1,7 @@
-package com.vic.reactor.sink;
+package com.vic.reactor.sink.dynamic;
 
 import org.junit.Test;
+import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 

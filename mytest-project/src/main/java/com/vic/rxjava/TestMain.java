@@ -98,8 +98,8 @@ public class TestMain {
      * https://www.jianshu.com/p/cd3557b1a474
      */
 
-    //            .subscribeOn(new NewThreadScheduler())   //指定事件产生的线程,Observable的方法所在的线程
-//                .observeOn(new NewThreadScheduler());   //指定事件消费的线程,即Subscriber所运行在的线程
+    //.subscribeOn(new NewThreadScheduler())   //指定事件产生的线程,Observable的方法所在的线程
+    //.observeOn(new NewThreadScheduler());   //指定事件消费的线程,即Subscriber所运行在的线程，订阅者线程
     private void rxJavaChainUse(){
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
