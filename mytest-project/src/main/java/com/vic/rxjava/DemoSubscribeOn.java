@@ -60,8 +60,6 @@ public class DemoSubscribeOn {
                 System.out.println("Sequence completed successfully");
 
             }
-
-
         });
 
 

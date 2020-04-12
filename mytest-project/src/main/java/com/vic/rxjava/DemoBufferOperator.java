@@ -14,7 +14,7 @@ import io.reactivex.functions.Consumer;
 
 public class DemoBufferOperator {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Observable<Integer> observable 	= Observable.range(10, 9);
 
         Observer<List<Integer>> observer = new Observer<List<Integer>>() {
@@ -37,6 +37,7 @@ public class DemoBufferOperator {
         };
 
         Disposable disposable = observable.buffer(2).subscribe(item -> System.out.println("Emitted " + item + " items"));
+        Thread.sleep(1000);
         observable.buffer(2).subscribe(observer);
     }
 }

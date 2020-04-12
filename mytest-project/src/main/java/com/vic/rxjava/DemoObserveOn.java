@@ -58,17 +58,6 @@ public class DemoObserveOn {
             }
         };
 
-//        observable.filter(new Predicate<Integer>() {
-//            @Override
-//            public boolean test(Integer t) throws Exception {
-//                System.out.println("test:Thread is -" + Thread.currentThread().getName());
-//
-//                return t > 10;
-//            }
-//        }).defaultIfEmpty(1)
-//          .observeOn(Schedulers.newThread())
-//          .subscribe(observer);
-
         observable.subscribe(observer);
 
         try {
