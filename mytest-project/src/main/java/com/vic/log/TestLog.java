@@ -26,17 +26,23 @@ public class TestLog {
         a.add(3);
         System.out.println(a.stream().sorted(Comparator.comparing(Integer::intValue).reversed()).collect(Collectors.toList()));
     }
-    public static void main(String[] args) {
-        try {
-            new TestLog().asd();
-        } catch (Throwable throwable) {
-            log.error("{}","aa",throwable);
+    public static void main(String[] args) throws InterruptedException {
+        log.info("abc|{}", "hello log4j2");
+        while (true) {
+            Thread.sleep(500);
+            try {
+                new TestLog().asd();
+            } catch (Throwable throwable) {
+                log.error("{}", "aa", throwable);
+            }
         }
-
     }
 
     public void asd() throws Throwable {
         throw new NullPointerException("as");
     }
+
+//    StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+//    StackTraceElement element = stackTraceElements[3];
 
 }

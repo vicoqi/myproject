@@ -4,6 +4,30 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%wqp] %-5level %logger{36} - %msg%n"/>
         </Console>
+        <RollingRandomAccessFile name="LOG_TRACE"
+                                 fileName="logs/trace_log.log"
+                                 filePattern="logs/trace_log.log.%d{yyyy-MM-dd-HH}-%i.gz">
+            <PatternLayout>
+                <Pattern>%d %-5p [%t] - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="3" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="512 MB"/>
+            </Policies>
+            <!--<DefaultRolloverStrategy max="200">-->
+                <!--<Delete basePath="logs/traffic/" maxDepth="2">-->
+                    <!--<IfFileName glob="*.gz" />-->
+                    <!--<IfLastModified age="72H" />-->
+                <!--</Delete>-->
+            <!--</DefaultRolloverStrategy>-->
+        </RollingRandomAccessFile>
+        <Customized name="LOG_CUSTOMIZED"
+                                 fileName="logs/trace_log.log"
+                                 filePattern="logs/trace_log.log.%d{yyyy-MM-dd-HH}-%i.gz">
+            <PatternLayout>
+                <Pattern>%d %-5p [%t] - [%wqp] %m%n</Pattern>
+            </PatternLayout>
+        </Customized>
     </Appenders>
     <Loggers>
         <Root level="error">
@@ -11,6 +35,8 @@
         </Root>
         <Logger name="com.vic" level="debug" additivity="false">
             <AppenderRef ref="Console" />
+            <!--<AppenderRef ref="LOG_TRACE" />-->
+            <!--<AppenderRef ref="LOG_CUSTOMIZED" />-->
         </Logger>
     </Loggers>
 </Configuration>

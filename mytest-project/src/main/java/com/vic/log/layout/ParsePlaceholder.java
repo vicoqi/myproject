@@ -1,4 +1,4 @@
-package com.vic.log.customized;
+package com.vic.log.layout;
 
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
@@ -31,6 +31,7 @@ public class ParsePlaceholder extends LogEventPatternConverter {
 
     @Override
     public void format(LogEvent event, StringBuilder toAppendTo) {
-        toAppendTo.append("wqp_hello");
+        toAppendTo.append("wqp_hello"
+        );
     }
 }
