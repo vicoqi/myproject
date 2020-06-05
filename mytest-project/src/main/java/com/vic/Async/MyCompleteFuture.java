@@ -29,6 +29,7 @@ public class MyCompleteFuture {
         System.out.println("CompletableFuture");
     }
 
+    //有返回值得话，future.get() 会阻塞3秒
     @Test
     public void test2(){
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
@@ -49,6 +50,7 @@ public class MyCompleteFuture {
         System.out.println("CompletableFuture|"+Thread.currentThread().getName());
     }
 
+    //不用 future.get() 完全异步链，就不会阻塞，在 main 线程
     @Test
     public void test3(){
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {

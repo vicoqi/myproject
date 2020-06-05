@@ -28,7 +28,13 @@ public class ParsePlaceholder extends LogEventPatternConverter {
     public static ParsePlaceholder newInstance(final String[] options) {
         return new ParsePlaceholder(options);
     }
-
+    /**
+     * @description:
+     * @param event
+     * @param toAppendTo
+     * @return: void
+     * @date 2020-05-06
+     */
     @Override
     public void format(LogEvent event, StringBuilder toAppendTo) {
         toAppendTo.append("wqp_hello"

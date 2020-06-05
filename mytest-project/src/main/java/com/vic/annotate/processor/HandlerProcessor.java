@@ -17,7 +17,7 @@ public class HandlerProcessor implements BeanFactoryPostProcessor {
     private static final String HANDLER_PACKAGE = "com.vic.annotate.service";
 
     /**
-     * 扫描@HandlerType，初始化HandlerContext，将其注册到spring容器
+     * 扫描{@link HandlerType}，初始化HandlerContext，将其注册到spring容器
      *
      * @param beanFactory bean工厂
      * @see HandlerType

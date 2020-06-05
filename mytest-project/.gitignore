@@ -106,4 +106,4 @@ nb-configuration.xml
 **/target/
 build.log
 **/logs/
-.DS_Store
+*.DS_Store

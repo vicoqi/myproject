@@ -1,42 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+    <Properties> <!-- 配置日志文件输出目录，此配置将日志输出到tomcat根目录下的指定文件夹 -->
+        <Property name="PATTERN_PLAIN">%d %5p [%16.16t] %32.32C:%-5.5L- %m%n</Property>
+        <Property name="PATTERN_COLORFUL">%highlight{%d %5p [%16.16t] %32.32c:%-5.5L- %m%n}</Property>
+        <Property name="LOG_DIR">logs</Property>
+    </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%wqp] %-5level %logger{36} - %msg%n"/>
+            <!--<PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - [%wqp] %m%n"/>-->
+            <PatternLayout pattern="%d %-5p [%t] %C{2}:%L - %m%n"/>
         </Console>
         <RollingRandomAccessFile name="LOG_TRACE"
                                  fileName="logs/trace_log.log"
                                  filePattern="logs/trace_log.log.%d{yyyy-MM-dd-HH}-%i.gz">
             <PatternLayout>
-                <Pattern>%d %-5p [%t] - %m%n</Pattern>
+                <!--<Pattern>%d %-5p [%t] - %m%n</Pattern>-->
+                <Pattern>%d %5p [%t] %32.32C:%-5.5L- %m%n</Pattern>
             </PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="3" modulate="true"/>
                 <SizeBasedTriggeringPolicy size="512 MB"/>
             </Policies>
-            <!--<DefaultRolloverStrategy max="200">-->
-                <!--<Delete basePath="logs/traffic/" maxDepth="2">-->
-                    <!--<IfFileName glob="*.gz" />-->
-                    <!--<IfLastModified age="72H" />-->
-                <!--</Delete>-->
-            <!--</DefaultRolloverStrategy>-->
         </RollingRandomAccessFile>
-        <Customized name="LOG_CUSTOMIZED"
-                                 fileName="logs/trace_log.log"
-                                 filePattern="logs/trace_log.log.%d{yyyy-MM-dd-HH}-%i.gz">
-            <PatternLayout>
-                <Pattern>%d %-5p [%t] - [%wqp] %m%n</Pattern>
-            </PatternLayout>
-        </Customized>
+        <!--<Customized name="LOG_CUSTOMIZED"-->
+                                 <!--fileName="logs/trace_log.log"-->
+                                 <!--filePattern="logs/trace_log.log.%d{yyyy-MM-dd-HH}-%i.gz">-->
+            <!--<PatternLayout>-->
+                <!--<Pattern>%d %-5p [%t] - [%wqp] %m%n</Pattern>-->
+            <!--</PatternLayout>-->
+        <!--</Customized>-->
     </Appenders>
     <Loggers>
         <Root level="error">
             <AppenderRef ref="Console"/>
         </Root>
-        <Logger name="com.vic" level="debug" additivity="false">
-            <AppenderRef ref="Console" />
-            <!--<AppenderRef ref="LOG_TRACE" />-->
+        <!--<logger name="com.vic" level="debug" additivity="false">-->
+            <!--<AppenderRef ref="Console" />-->
+            <!--&lt;!&ndash;<AppenderRef ref="LOG_TRACE" />&ndash;&gt;-->
             <!--<AppenderRef ref="LOG_CUSTOMIZED" />-->
-        </Logger>
+        <!--</logger>-->
+        <!--<logger name="pathTrace" level="INFO" additivity="false">-->
+            <!--<appender-ref ref="Console"/>-->
+        <!--</logger>-->
+        <AsyncLogger name="common" level="INFO" includeLocation="true" additivity="false">
+            <AppenderRef ref="Console"/>
+            <appender-ref ref="LOG_TRACE"/>
+        </AsyncLogger>
     </Loggers>
 </Configuration>
