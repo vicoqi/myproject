@@ -8,6 +8,7 @@ import io.reactivex.subjects.Subject;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 @Slf4j
 public class DemoPublishSubject {
@@ -21,7 +22,7 @@ public class DemoPublishSubject {
 //        demo.test2();
         demo.test4();
     }
-
+    @Test
     public void test1() {
         PublishSubject<Integer> subject = PublishSubject.create();
         subject.onNext(1);
@@ -34,6 +35,7 @@ public class DemoPublishSubject {
 
     }
 
+    @Test
     public void test2() {
         PublishSubject<Integer> subject = PublishSubject.create();
         subject.onNext(1);
@@ -47,6 +49,7 @@ public class DemoPublishSubject {
     }
 
     //可以有多个订阅
+    @Test
     public void test3() {
         PublishSubject<Integer> subject = PublishSubject.create();
         subject.onNext(1);
@@ -61,6 +64,7 @@ public class DemoPublishSubject {
         subject.onComplete();
     }
     //报错    #toSerialized() 都没有用
+    @Test
     public void test4() {
         PublishSubject<Integer> subject = PublishSubject.create();
 //        Subject<Object> subject = PublishSubject.create().toSerialized();

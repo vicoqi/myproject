@@ -69,6 +69,7 @@ public class RedisDatasourceConfiguration {
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(new StringRedisSerializer());
         redisTemplate.setConnectionFactory(lettuceConnectionFactory1());
+        redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 
@@ -79,6 +80,7 @@ public class RedisDatasourceConfiguration {
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(new StringRedisSerializer());
         redisTemplate.setConnectionFactory(lettuceConnectionFactory2());
+        redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 }
