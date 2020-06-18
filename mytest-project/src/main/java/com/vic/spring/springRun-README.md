@@ -24,7 +24,8 @@ public ConfigurableApplicationContext run(String... args) {
 			Banner printedBanner = printBanner(environment);
 			
 			//按情况创建三种类型的环境中的一个
-		    并注册一些 对象 到 beanFactory中
+		   //** 并实例化一些类的同时，并注册一些 bd（postProcessor = {ConfigurationClassPostProcessor(显示强制注册)}）  到 beanFactory中
+		    //应该是注册了包括启动类在内的8个 postProcessor
 		    e.g springBootBanner 、springbootarugments
 			context = createApplicationContext();
 			

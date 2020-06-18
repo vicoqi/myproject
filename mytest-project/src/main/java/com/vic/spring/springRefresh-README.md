@@ -49,6 +49,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
                 	两个接口：BeanFactoryPostProcessor、BeanDefinitionRegistryPostProcessor
                 ### ConfigurationClassPostProcessor 解析一些配置的注解或者抽象类 成BeanDefinition，然后注册到 beanFactory 中
                 e.g @PropertySource、@ComponentScan、@Import、@ImportResource、 @Bean、
+
+                //在这里就把@component等注解扫描成 mdb
+                //可以看@【10】
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
@@ -96,6 +99,46 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 			}
 		}
 	}
+
+
+
+
+@【10】
+PostProcessorRegistrationDelegate#invokeBeanFactoryPostProcessors(91)#invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
+
+通过具体的postProcessor（currentRegistryProcessors == ConfigurationClassPostProcessor）,得到扫描包下等等所有 mdb.
+
+详细步骤如下，以启动类作为configura类，然后扫描得到我们自己的 所有的 beanDefinition （带注解的,包括自定义的postProcessor,需要带注解，要不然扫不到，下一步不起作用）
+主要是 ConfigurationClassPostProcessor#postProcessBeanDefinitionRegistry#processConfigBeanDefinitions#parser.parse(candidates);（candidates == 启动类即springStart）->
+ ConfigurationClassParser (Parse each @Configuration class)#parse#processConfigurationClass#doProcessConfigurationClass#Set<BeanDefinitionHolder> # scannedBeanDefinitions =  this.componentScanParser.parse(componentScan, sourceClass.getMetadata().getClassName());
+
+
+
+
+AbstractBeanFactory#getBean#doGetBean ->
+
+singletonObject = singletonFactory.getObject(); 回调上面触发下面 ->
+
+AbstractAutowireCapableBeanFactory#createBean#doCreateBean ->
+
+AbstractAutowireCapableBeanFactory#createBeanInstance(beanName, mbd, args) 通过反射生成 bean实例，BeanUtils.instantiateClass(constructorToUse); ->
+
+AbstractAutowireCapableBeanFactory#populateBean  DI,注入实现，通过BeanPostProcessor，defaultListBeanfactory ,主要是 CommonAnnotationBeanPostProcessor#postProcessPropertyValues  ->
+
+AbstractAutowireCapableBeanFactory#initializeBean -> 接口实现类，接口方法afterPropertity
+
+构造函数 = AbstractAutowireCapableBeanFactory#createBeanInstance
+接下来，初始化的几部 postProcessBeforeInitialization == @PostConstruct。实现了注入applicationContext的类，是通过(ApplicationContextAwareProcessor#postProcessBeforeInitialization)
+-> InitializingBean == InitializingBean
+-> postProcessAfterInitialization == 貌似等于@Component之类的注解还是@Resource注入？？？
+
+感悟:
+0.理解几个 几个 postProcessor比较重要。前期是几个 BeanFactoryPostProcessor,后期主要是BeanPostProcessor。
+1.BeanPostProcessor#postProcessBeforeInitialization,用于提前注入，比如实现了某个接口，然后注入某个类，或者类似@PostConstruct注解，早早的起作用，即构造函数完之后。
+
+
+
+
 
 
 

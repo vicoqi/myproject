@@ -197,6 +197,13 @@
             <version>4.12</version>
             <scope>compile</scope>
         </dependency>
+        <!--rocketmq start-->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>4.3.0</version>
+        </dependency>
+        <!--rocketmq end-->
 
     </dependencies>
 
