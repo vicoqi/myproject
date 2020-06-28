@@ -2,6 +2,7 @@ package com.vic.algorithm;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.omg.CORBA.NO_IMPLEMENT;
 
 /**
  * @description: 如何实现一个高效的单向链表逆序输出？
@@ -23,14 +24,22 @@ public class ReserveLink {
         System.out.println(link.prettyLink(first));
 
         //逆序链表
-
+        Node last = null;
+        Node cur = first;
+        while (cur.next !=null){
+            Node temp = cur.next;
+            cur.next = last;
+            last = cur;
+            cur = temp;
+        }
+        cur.next = last;
+        System.out.println(link.prettyLink(cur));
     }
 
     @Getter@Setter
     class Node{
         private Integer value;
         private Node next;
-
         @Override
         public String toString() {
             return value.toString();

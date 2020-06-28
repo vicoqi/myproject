@@ -16,8 +16,8 @@ public class Concurrenthashmap {
         map.put("c","c");
         map.put("d","d");
         new Thread(()->{
-            long st = System.currentTimeMillis();
             while (true) {
+                long st = System.currentTimeMillis();
 //                try {
 //                    Thread.sleep(2000);
 //                } catch (InterruptedException e) {
@@ -38,7 +38,7 @@ public class Concurrenthashmap {
 
         for (int i = 0; i < 20; i++) {
             try {
-                Thread.sleep(100);
+                Thread.sleep(2);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
