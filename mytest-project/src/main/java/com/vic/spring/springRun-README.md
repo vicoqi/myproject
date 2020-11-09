@@ -18,6 +18,7 @@ public ConfigurableApplicationContext run(String... args) {
 		try {
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(
 					args);
+		    //推断是哪个环境，通过是否加载了那个类，来判断 是web,还是其它的
 			ConfigurableEnvironment environment = prepareEnvironment(listeners,
 					applicationArguments);
 			configureIgnoreBeanInfo(environment);

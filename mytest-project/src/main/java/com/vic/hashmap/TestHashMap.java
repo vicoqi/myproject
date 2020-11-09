@@ -5,6 +5,8 @@ package com.vic.hashmap;
  * @Description:
  */
 
+import org.junit.Test;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,5 +61,11 @@ public class TestHashMap {
         }
         System.out.println("=============================");
 
+    }
+
+    @Test
+    public void foreach(){
+        HashMap hashMap = new HashMap();
+//        hashMap.entrySet().forEach();
     }
 }

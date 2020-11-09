@@ -78,16 +78,20 @@ public class CurveTest {
     public void test() {
         LinkedList<CvPoint> bezierPoint = new LinkedList<>();
         CvPoint[] controlPoint = new CvPoint[4];
-        controlPoint[0] = new CvPoint(50, 60); //起点
-        controlPoint[1] = new CvPoint(130, 200); //控制点
-        controlPoint[2] = new CvPoint(300, 360); //控制点
-        controlPoint[3] = new CvPoint(400, 600); //终点
+//        controlPoint[0] = new CvPoint(50, 60); //起点
+//        controlPoint[1] = new CvPoint(130, 200); //控制点
+//        controlPoint[2] = new CvPoint(300, 360); //控制点
+//        controlPoint[3] = new CvPoint(400, 600); //终点
+        controlPoint[0] = new CvPoint(0, 0); //起点
+        controlPoint[1] = new CvPoint(50, 50); //控制点
+        controlPoint[2] = new CvPoint(50, 50); //控制点
+        controlPoint[3] = new CvPoint(100, 0); //终点
         int n = controlPoint.length - 1; //
         int i, r;
         float u;
 
         // u的步长决定了曲线点的精度
-        for (u = 0; u <= 1; u += 0.01) {
+        for (u = 0; u <= 1; u += 0.25) {
 
             CvPoint[] p = new CvPoint[n + 1];
             for (i = 0; i <= n; i++) {
@@ -96,8 +100,8 @@ public class CurveTest {
 
             for (r = 1; r <= n; r++) {
                 for (i = 0; i <= n - r; i++) {
-                    p[i].x = (1 - u) * p[i].x + u * p[i + 1].x;
-                    p[i].y = (1 - u) * p[i].y + u * p[i + 1].y;
+                    p[i].x = (int) ((1 - u) * p[i].x + u * p[i + 1].x);
+                    p[i].y = (int) ((1 - u) * p[i].y + u * p[i + 1].y);
                 }
             }
             bezierPoint.add(p[0]);
@@ -110,8 +114,8 @@ public class CurveTest {
 
     @AllArgsConstructor
     private class CvPoint {
-        public float x;
-        public float y;
+        public int x;
+        public int y;
     }
 }
 

@@ -1,4 +1,4 @@
-package com.vic.rxjava;
+package com.vic.rxjava.optest;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -6,21 +6,21 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.schedulers.NewThreadScheduler;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 import lombok.Getter;
 
 /**
  * @Auther: wqp
  * @Date: 2019/2/22 16:03
  * @Description:
+ * io.reactivex.Flowable：0..N流量，支持反应流和背压
+ * io.reactivex.Observable：0..N流动，无背压，
  */
-public class TestMain {
+public class ObservableTest {
     private Disposable mDisposable;
     @Getter
     private ObservableEmitter<String> em;
     public static void main(String[] args) {
-        TestMain testMain = new TestMain();
+        ObservableTest testMain = new ObservableTest();
         testMain.rxJavaChainUse();
 //        testMain.getEm().onNext("连载1");
 //        testMain.getEm().onNext("连载2");

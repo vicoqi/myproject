@@ -24,6 +24,18 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <!--钉钉sdk仓库-->
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype Nexus Staging</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -219,11 +231,27 @@
         </dependency>
         <!--rocketmq start-->
         <dependency>
+
+
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
             <version>4.3.0</version>
         </dependency>
         <!--rocketmq end-->
+        <!--redisson start-->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.13.4</version>
+        </dependency>
+        <!--redisson end-->
+        <!--dingding start-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibaba-dingtalk-service-sdk</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <!--dingding end-->
 
     </dependencies>
 

@@ -1,6 +1,10 @@
 package com.vic;
 
-import java.util.Optional;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+import org.junit.Test;
+
+import java.util.*;
 
 /**
  * @Date: 2018/8/29 14:02
@@ -73,5 +77,31 @@ public class TestAll {
         public String getAa(){
             return aa;
         }
+    }
+
+    @Test
+    public void testMap(){
+        Map<AB,String> map = new HashMap<>();
+        map.put(new AB(1, Collections.singletonList("1")),"1");
+
+        System.out.println(map.get(new AB(1, Collections.singletonList("1"))));
+    }
+
+    @Test
+    public void sleep(){
+        while (true){
+            System.out.println("ready to sleep");
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    @AllArgsConstructor
+    class AB{
+        int a;
+        List<String> b;
     }
 }

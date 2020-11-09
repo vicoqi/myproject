@@ -1,23 +1,31 @@
-package com.vic.rxjava;
+package com.vic.rxjava.optest;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+/**
+ * Subject：它既是Observable，又是observer。也就是既可以发送事件，也可以接收事件。
+ *
+ * 下面是四个子类
+ * PublishSubject、   //PublicSubject：接收到订阅之后的所有数据。
+ * ReplaySubject、    //ReplaySubject：接收到所有的数据，包括订阅之前的所有数据和订阅之后的所有数据。
+ * BehaviorSubject、  //BehaviorSubject：接收到订阅前的最后一条数据和订阅后的所有数据。
+ * AsyncSubject的区别：//AsyncSubject：不管在什么位置订阅，都只接接收到最后一条数据
+ */
 @Slf4j
-public class DemoPublishSubject {
+public class SubjectTest {
 
     @Getter@Setter
     private Disposable disposable;
 
     public static void main(String[] args) {
-        DemoPublishSubject demo = new DemoPublishSubject();
+        SubjectTest demo = new SubjectTest();
 //        demo.test1();
 //        demo.test2();
         demo.test4();
@@ -84,7 +92,7 @@ public class DemoPublishSubject {
 
     }
 
-    public <T> Observer<T> getObserver(DemoPublishSubject demoPublishSubject){
+    public <T> Observer<T> getObserver(SubjectTest demoPublishSubject){
         return new Observer<T>() {
             @Override
             public void onSubscribe(Disposable disposable) {

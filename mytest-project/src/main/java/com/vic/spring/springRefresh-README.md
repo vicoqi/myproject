@@ -128,7 +128,7 @@ AbstractAutowireCapableBeanFactory#populateBean  DI,注入实现，通过BeanPos
 AbstractAutowireCapableBeanFactory#initializeBean -> 接口实现类，接口方法afterPropertity
 
 构造函数 = AbstractAutowireCapableBeanFactory#createBeanInstance
-接下来，初始化的几部 postProcessBeforeInitialization == @PostConstruct。实现了注入applicationContext的类，是通过(ApplicationContextAwareProcessor#postProcessBeforeInitialization)
+接下来，初始化的几步 postProcessBeforeInitialization == @PostConstruct。实现了注入applicationContext的类，是通过(ApplicationContextAwareProcessor#postProcessBeforeInitialization)
 -> InitializingBean == InitializingBean
 -> postProcessAfterInitialization == 貌似等于@Component之类的注解还是@Resource注入？？？
 

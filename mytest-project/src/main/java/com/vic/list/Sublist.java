@@ -1,6 +1,9 @@
 package com.vic.list;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,5 +32,10 @@ public class Sublist {
         System.out.println(a.toString());
         System.out.println(finalLockzone.toString());
         System.out.println(finalLockzone1.toString());
+    }
+    @Test
+    public void split(){
+        System.out.println(Arrays.toString("a ".split(";")));
+        System.out.println("a ".split(";").length);
     }
 }
