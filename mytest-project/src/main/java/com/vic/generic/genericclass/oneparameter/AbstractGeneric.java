@@ -12,7 +12,8 @@ import java.lang.reflect.ParameterizedType;
 public abstract class AbstractGeneric<T> {
 
     @Getter
-    private Class<T> modelClass;    // 当前泛型真实类型的Class
+    // 当前泛型真实类型的Class
+    private final Class<T> modelClass;
 
     public AbstractGeneric(){
         ParameterizedType parameterizedType = (ParameterizedType)this.getClass().getGenericSuperclass();
