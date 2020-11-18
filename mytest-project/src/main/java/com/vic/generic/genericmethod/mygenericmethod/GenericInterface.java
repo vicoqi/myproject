@@ -1,4 +1,4 @@
-package com.vic.generic.genericmethod;
+package com.vic.generic.genericmethod.mygenericmethod;
 
 /**
  * 方法泛型。

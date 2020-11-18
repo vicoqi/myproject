@@ -1,4 +1,4 @@
-package com.vic.generic.genericmethod;
+package com.vic.generic.genericmethod.mygenericmethod;
 
 import org.springframework.core.MethodIntrospector;
 import org.springframework.core.annotation.AnnotatedElementUtils;

@@ -1,4 +1,4 @@
-package com.vic.generic.genericclass;
+package com.vic.generic.genericclass.oneparameter;
 
 /**
  * @description:
@@ -8,12 +8,12 @@ package com.vic.generic.genericclass;
 public class GenericImpl extends AbstractGeneric<String>{
 
     @Override
-    public void a(String s) {
+    public void abstractMethod(String s) {
 
     }
 
     @Override
-    public String b(String s) {
+    public String abstractReturnMethod(String s) {
         return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.vic.generic.genericclass;
+package com.vic.generic.genericclass.oneparameter;
 
 /**
  * @description:

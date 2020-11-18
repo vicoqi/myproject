@@ -1,6 +1,6 @@
-package com.vic.generic.genericmethod;
+package com.vic.generic.genericmethod.mygenericmethod;
 
-import com.vic.generic.genericclass.GenericImpl;
+import org.springframework.core.annotation.AnnotationUtils;
 
 /**
  * @description:
@@ -11,6 +11,9 @@ public class GenericTestMain {
     public static void main(String[] args) {
         GenericMethod genericMethod = new GenericMethod();
         genericMethod.c(new CommonObject());
+
+        //得到这个类上的注解
+//        AnnotationUtils.findAnnotation(spi, Spi.class);
     }
 
 }

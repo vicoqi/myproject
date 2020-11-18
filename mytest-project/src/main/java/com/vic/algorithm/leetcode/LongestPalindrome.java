@@ -1,12 +1,16 @@
 package com.vic.algorithm.leetcode;
 
 /**
+ *
+ * 5. 最长回文子串
  * 最长的回文子串
  * babab = bab | aba
  * @author: wangqp
  * @create: 2020-07-06 13:09
  */
 public class LongestPalindrome {
+
+    //dp[i][j] = dp[i+1][j-1] && （s[i] == s[j]）
 
     public String longestPalindrome(String s) {
         // 特判
@@ -33,6 +37,7 @@ public class LongestPalindrome {
                     if (j - i < 3) {
                         dp[i][j] = true;
                     } else {
+                        //需要往内部找
                         dp[i][j] = dp[i + 1][j - 1];
                     }
                 }

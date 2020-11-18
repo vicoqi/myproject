@@ -1,4 +1,4 @@
-package com.vic.generic.genericmethod;
+package com.vic.generic.genericmethod.mygenericmethod;
 
 /**
  * 方法泛型。
@@ -7,6 +7,6 @@ package com.vic.generic.genericmethod;
  **/
 public interface ISigin {
 
-    //继承车可以在这个方法上加注解，匿名注解
+    //继承类可以在这个方法上加注解，匿名注解
     void sigin(Object siginParam);
 }

@@ -1,6 +1,12 @@
 package com.vic.algorithm.leetcode;
 
-/**剑指 Offer 48. 最长不含重复字符的子字符串
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * 3. 无重复字符的最长子串
+ *
+ * 剑指 Offer 48. 最长不含重复字符的子字符串
  *
  * 示例 1:
  *
@@ -21,44 +27,41 @@ package com.vic.algorithm.leetcode;
  *
  */
 
-
-
-
-
-
 public class lengthOfLongestSubstring {
 
-    public int length(String str){
-        char[] chars = str.toCharArray();
-        StringBuilder sub = new StringBuilder();
-        for (int i=0;i<chars.length;i++){
-            sub.append(chars[i]);
-            for (int j=i+1;j<chars.length;j++){
-                if (sub.indexOf(String.valueOf(chars[j]))>0){
-                    sub.append(chars[j]);
-                } else {
-                    sub.setLength(0);
-                }
+    public int MyLengthOfLongestSubstring(String s) {
+        Set<Character> set = new HashSet<>();
+        int maxLength = 0;
+        int head = 0;
+        int tail = 0;
+        while (tail <= head && head < s.length()){
+            if (!set.contains(s.charAt(head))){
+                set.add(s.charAt(head));
+                head++;
+                maxLength = Math.max(maxLength,head-tail);
+            }else {
+                set.remove(s.charAt(tail));
+                tail++;
             }
         }
-        return sub.length();
+        return maxLength;
     }
 
-//    public int mylength(String str){
-//        char[] chars = str.toCharArray();
-//        int max = 0;
-//        StringBuilder sub = new StringBuilder();
-//        sub.append(chars[0]);
-//        for (int i=1;i<chars.length;i++){
-//            //在子串中的下标
-//            int index = sub.indexOf(String.valueOf(chars[i]));
-//            if (>0){
-//                max = Math.max(max,sub.length());
-//
-//            }
-//
-//
-//        }
-//        return sub.length();
-//    }
+
+
+    //正解，好理解的方式，滑动窗口，双指针。
+    public int lengthOfLongestSubstring(String s) {
+        Set<Character> set = new HashSet<>();
+        int left = 0, right = 0, res = 0;
+        while(right < s.length()){
+            char c = s.charAt(right++);
+            //存在重复的字符，则移动左指针，直到滑动窗口中不含有该字符
+            while(set.contains(c)){
+                set.remove(s.charAt(left++));
+            }
+            set.add(c);
+            res = Math.max(res, right-left);
+        }
+        return res;
+    }
 }
